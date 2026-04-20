@@ -1,43 +1,32 @@
-# Digital Wellbeing App — Backend
+# Digital Wellbeing App — Frontend
 
-REST API backend for the **Digital Wellbeing Optimizer** mobile application. Built with Node.js, Express.js, and MongoDB.
+A React Native mobile application that helps users monitor and manage their screen time habits. Features usage tracking, AI-based predictions, and a gamified rewards system.
 
-🔗 **Live API:** [digitalwelbeingbackend.vercel.app](https://digitalwelbeingbackend.vercel.app)  
-📱 **Frontend Repo:** [digitalwelbeingfrontend](https://github.com/ft-umer/digitalwelbeingfrontend)
+> ⚠️ Note: A `supabase/` folder exists in this repo from the initial Expo boilerplate — it is not used. The actual backend is a custom Node.js/Express/MongoDB API. See the [backend repo](https://github.com/ft-umer/digitalwelbeingbackend).
+
+🔗 **Backend Repo:** [digitalwelbeingbackend](https://github.com/ft-umer/digitalwelbeingbackend)
 
 ---
 
 ## Features
 
-- **JWT Authentication** — Secure user registration, login, and token-based session management
-- **Role-Based Access Control** — Middleware protecting routes based on user roles
-- **App Usage Tracking** — APIs to log, retrieve, and analyze individual app usage sessions
-- **Daily Goals** — Endpoints for creating and tracking user-defined daily screen time limits
-- **Rewards System** — Logic for calculating and awarding points based on goal completion
-- **Usage Predictions** — API endpoints serving AI-generated usage forecasts
+- **User Authentication** — Register, login, and persistent sessions via JWT
+- **Dashboard** — Daily usage overview, goal progress, and points summary
+- **App Usage Tracking** — Monitor individual app usage durations with detailed stats
+- **AI Usage Predictions** — Smart forecasts based on the last 7 days of usage history
+- **Rewards System** — Earn points by meeting daily goals and maintaining weekly streaks
+- **Risk Assessment** — Real-time risk level (Low / Medium / High / Critical) based on usage patterns
 
 ---
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB with Mongoose ODM
-- **Auth:** JWT (JSON Web Tokens)
-- **Deployment:** Vercel
-
----
-
-## Project Structure
-
-```
-├── config/          # Database connection and environment config
-├── controllers/     # Route handler logic
-├── middleware/      # Auth and role-based access middleware
-├── models/          # Mongoose schemas (User, AppUsage, Goals, Rewards)
-├── routes/          # API route definitions
-└── server.js        # App entry point
-```
+- **Framework:** React Native with Expo
+- **Language:** TypeScript
+- **Styling:** NativeWind (Tailwind CSS for React Native)
+- **Navigation:** Expo Router
+- **State Management:** React Context API
+- **Backend:** Custom Node.js/Express REST API with MongoDB
 
 ---
 
@@ -45,42 +34,42 @@ REST API backend for the **Digital Wellbeing Optimizer** mobile application. Bui
 
 ### Prerequisites
 - Node.js v18+
-- MongoDB (local or Atlas)
+- Expo CLI
+- Android Studio or Expo Go app on your phone
 
 ### Installation
 
 ```bash
 # Clone the repo
-git clone https://github.com/ft-umer/digitalwelbeingbackend.git
-cd digitalwelbeingbackend
+git clone https://github.com/ft-umer/digitalwelbeingfrontend.git
+cd digitalwelbeingfrontend
 
 # Install dependencies
 npm install
 
-# Create environment file
+# Set up environment variables
 cp .env.example .env
-# Fill in your MONGO_URI and JWT_SECRET
+# Add your backend API URL
 
-# Start development server
+# Start the dev server
 npm run dev
 ```
 
 ---
 
-## API Endpoints
+## Project Structure
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive JWT |
-| GET | `/api/usage` | Get user's app usage data |
-| POST | `/api/usage` | Log new app usage session |
-| GET | `/api/goals` | Get user's daily goals |
-| POST | `/api/goals` | Create a daily goal |
-| GET | `/api/rewards` | Get user's earned rewards |
+```
+├── app/              # Expo Router screens (tabs, auth)
+├── components/       # Reusable UI components
+├── contexts/         # React Context (Auth, etc.)
+├── hooks/            # Custom React hooks
+├── services/         # API call functions
+└── utils/            # Helper functions (risk calculator, etc.)
+```
 
 ---
 
 ## Related
 
-- 📱 Frontend (React Native): [digitalwelbeingfrontend](https://github.com/ft-umer/digitalwelbeingfrontend)
+- ⚙️ Backend (Node.js/Express/MongoDB): [digitalwelbeingbackend](https://github.com/ft-umer/digitalwelbeingbackend)
