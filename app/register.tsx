@@ -22,57 +22,41 @@ export default function RegisterScreen() {
   const { signUp } = useAuth();
   const router = useRouter();
 
-  const handleRegister = async () => {
-    if (!email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
-    }
+ const handleRegister = async () => {
+  if (!email || !password || !confirmPassword) {
+    Alert.alert('Error', 'Please fill in all fields');
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
+  if (password !== confirmPassword) {
+    Alert.alert('Error', 'Passwords do not match');
+    return;
+  }
 
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
-      return;
-    }
+  if (password.length < 6) {
+    Alert.alert('Error', 'Password must be at least 6 characters');
+    return;
+  }
 
-    setLoading(true);
-    try {
-      // Get existing users from AsyncStorage
-      const usersJson = await AsyncStorage.getItem('mock_users');
-      const users = usersJson ? JSON.parse(usersJson) : [];
+  setLoading(true);
 
-      // Check if user already exists
-      if (users.find((u: any) => u.email === email)) {
-        Alert.alert('Error', 'User already exists');
-        setLoading(false);
-        return;
-      }
+  try {
+    // ✅ USE CONTEXT SIGNUP
+    await signUp(email, password);
 
-      // Add new user
-      users.push({ email, password });
-      await AsyncStorage.setItem('mock_users', JSON.stringify(users));
+    Alert.alert('Success', 'Account created successfully!', [
+      {
+        text: 'OK',
+        onPress: () => router.replace('/(tabs)/usage'),
+      },
+    ]);
 
-      // Save session so user is automatically logged in
-      await AsyncStorage.setItem('mock_session', JSON.stringify({ email }));
-
-      Alert.alert('Success', 'Account created successfully!', [
-        {
-          text: 'OK',
-          onPress: () => // after sign up success
-            router.replace('/(tabs)/usage') // directly log in user
-
-        },
-      ]);
-
-    } catch (error: any) {
-      Alert.alert('Registration Failed', error.message || 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error: any) {
+    Alert.alert('Registration Failed', error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   return (

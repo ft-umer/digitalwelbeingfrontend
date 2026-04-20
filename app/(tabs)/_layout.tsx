@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Home, BarChart3, TrendingUp, Award } from 'lucide-react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
@@ -19,28 +19,39 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Dashboard',
-          tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="usage"
         options={{
           title: 'Usage',
-          tabBarIcon: ({ size, color }) => <BarChart3 size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="bar-chart-outline" size={size} color={color} />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="prediction"
         options={{
           title: 'Prediction',
-          tabBarIcon: ({ size, color }) => <TrendingUp size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="trending-up-outline" size={size} color={color} />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="rewards"
         options={{
           title: 'Rewards',
-          tabBarIcon: ({ size, color }) => <Award size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="trophy-outline" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>

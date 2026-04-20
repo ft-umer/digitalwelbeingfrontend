@@ -11,6 +11,9 @@ import {
   Image,
 } from 'react-native';
 import { Instagram, Plus, Youtube } from 'lucide-react-native';
+import { useAuth } from '@/contexts/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getUsageStats } from '@/services/usage';
 
 // Replace the appIcons with PNG links
 const appIcons: Record<string, any> = {
@@ -73,27 +76,36 @@ const predictFutureUsage = (history: number[]): number => {
 };
 
 export default function UsageScreen() {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [apps, setApps] = useState<any[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [newApp, setNewApp] = useState({ appName: '', packageName: '', usageDuration: '' });
   const dailyLimit = 120 * 60000; // 2 hours in ms
 
-  useEffect(() => {
-    loadMockData();
-  }, []);
+useEffect(() => {
+  loadRealUsage();
+}, []);
 
-  const loadMockData = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const mockApps = [
-        { id: '1', app_name: 'YouTube', package_name: 'com.google.youtube', usage_duration: 90 * 60000, last_used: new Date().toISOString() },
-        { id: '2', app_name: 'Instagram', package_name: 'com.instagram.android', usage_duration: 45 * 60000, last_used: new Date().toISOString() },
-      ];
-      setApps(mockApps);
-      setLoading(false);
-    }, 500);
-  };
+const loadRealUsage = async () => {
+  try {
+    const data = await getUsageStats();
+
+    const formatted = data.map((item: any, index: number) => ({
+      id: index.toString(),
+      app_name: item.packageName,
+      package_name: item.packageName,
+      usage_duration: item.usageTime,
+      last_used: new Date(item.lastTimeUsed).toISOString(),
+    }));
+
+    setApps(Array.isArray(formatted) ? formatted : []);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleAddApp = () => {
     const duration = parseInt(newApp.usageDuration);

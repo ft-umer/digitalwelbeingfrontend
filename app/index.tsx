@@ -4,18 +4,18 @@ import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Index() {
-  const { session, loading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!loading) {
-      if (session) {
+      if (user) {
         router.replace('/(tabs)');
       } else {
         router.replace('/login');
       }
     }
-  }, [session, loading]);
+  }, [user, loading]);
 
   return (
     <View style={styles.container}>
